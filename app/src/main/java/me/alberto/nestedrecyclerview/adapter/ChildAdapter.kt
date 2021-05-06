@@ -13,7 +13,7 @@ class ChildAdapter(private val children: List<Child>) :
 
     class DiffCallback : DiffUtil.ItemCallback<Child>() {
         override fun areItemsTheSame(oldItem: Child, newItem: Child): Boolean {
-            return oldItem === newItem
+            return oldItem.id === newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Child, newItem: Child): Boolean {

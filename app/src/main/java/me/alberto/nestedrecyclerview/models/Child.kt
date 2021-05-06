@@ -1,3 +1,5 @@
 package me.alberto.nestedrecyclerview.models
 
-data class Child(val name: String, val value: String)
+import java.util.*
+
+data class Child(val name: String, val value: String, var id: UUID = UUID.randomUUID())

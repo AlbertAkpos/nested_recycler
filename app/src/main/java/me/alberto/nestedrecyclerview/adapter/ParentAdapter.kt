@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import me.alberto.nestedrecyclerview.databinding.ParentItemBinding
 import me.alberto.nestedrecyclerview.models.Parent
@@ -15,7 +14,7 @@ class ParentAdapter(private val parentItems: List<Parent>) :
 
     class DiffCallback : DiffUtil.ItemCallback<Parent>() {
         override fun areItemsTheSame(oldItem: Parent, newItem: Parent): Boolean {
-            return oldItem === newItem
+            return oldItem.id === newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Parent, newItem: Parent): Boolean {
@@ -42,7 +41,7 @@ class ParentAdapter(private val parentItems: List<Parent>) :
     class ParentItemHolder(private val binding: ParentItemBinding) : ViewHolder(binding.root) {
 
         fun bind(parentItem: Parent) {
-            binding.header.text = parentItem.title
+            binding.parent = parentItem
             binding.header.setOnClickListener {
                 parentItem.isCollapse = !parentItem.isCollapse
                 val list = parentItem.children
@@ -52,10 +51,9 @@ class ParentAdapter(private val parentItems: List<Parent>) :
                 } else {
                     ChildAdapter(list)
                 }
+                binding.adapter = adapter
                 binding.rvChild.adapter = adapter
-                adapter.notifyDataSetChanged()
             }
-            binding.rvChild.setRecycledViewPool(viewPool)
         }
 
         companion object {
@@ -65,9 +63,5 @@ class ParentAdapter(private val parentItems: List<Parent>) :
                 return ParentItemHolder(binding)
             }
         }
-    }
-
-    companion object {
-        val viewPool = RecyclerView.RecycledViewPool()
     }
 }
